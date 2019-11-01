@@ -13,9 +13,19 @@ variables:
   imageName: 'pipelines-javascript-docker'
 
 steps:
-- task: Docker@2
-  displayName: Build an image
-  inputs:
-    repository: $(imageName)
-    command: build
-    Dockerfile: app/Dockerfile
+
+- script: |
+    docker build -f app/Dockerfile -t $(imageName) .
+    displayName: 'Docker build Script'
+
+- script: |
+    docker login -u $(dockerId) -p $(pswd)
+    docker push $(imageName)
+  displayName: 'Push docker image'
+
+#- task: Docker@2
+#  displayName: Build an image
+#  inputs:
+#    repository: $(imageName)
+#    command: build
+#    Dockerfile: app/Dockerfile
