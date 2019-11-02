@@ -1,6 +1,8 @@
 FROM node:8
 
 WORKDIR /usr/src/app
+RUN pwd
+RUN cd app
 RUN ls -l
 COPY package*.json ./
 RUN npm ci --only=production
